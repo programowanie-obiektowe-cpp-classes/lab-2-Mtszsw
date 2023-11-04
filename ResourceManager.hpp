@@ -2,37 +2,30 @@
 
 #include "Resource.hpp"
 
-class ResourceManager
-{
-private: 
-	Resource *resource;
+class Resource {
+    // ... (Implementacja klasy Resource)
+public:
+    double get() {
+        // Zwracanie wartości zasobu (symulowane pobranie z serwera, itp.)
+        return 42.0; // Przykładowa wartość zasobu
+    }
+};
+
+class ResourceManager {
+private:
+    Resource resource; // Zarządzany obiekt typu Resource
 
 public:
-     ResourceManager() : resource(new Resource()) {}
+    ResourceManager() : resource() {} // Konstruktor domyślny, inicjalizuje zarządzany zasób
 
-	 double get() { return resource->get(); }
+    // Konstruktor kopiujący, przenoszący, operator przypisania, itp.
+    ResourceManager(const ResourceManager&) = default;
+    ResourceManager& operator=(const ResourceManager&) = default;
+    ResourceManager(ResourceManager&&) = default;
+    ResourceManager& operator=(ResourceManager&&) = default;
+    ~ResourceManager() = default;
 
-	 ResourceManager(const ResourceManager &diff) : resource(new Resource(*diff.resource)) {}  // konstruktor kopiowania
-
-	 ResourceManager& operator=(const ResourceManager& diff)  //zdefiniowanie przypisujacego operatora kopiowania
-         {
-             if (this != &diff) {
-                delete resource;
-                 resource = new Resource(*diff.resource);
-             }
-             return *this;
-         }
-     ResourceManager(ResourceManager&& diff) : resource(std::move(diff.resource)) {}  //kontruktor przenoszenia
-
-     ResourceManager& operator=(ResourceManager&& diff)
-     {
-             if (this != &diff) {
-                 delete resource;
-                 resource = std::move(diff.resource);
-             }
-             return *this;
-     }
-
-      ~ResourceManager() { delete resource; } //destruktor
-
+    double get() {
+        return resource.get(); // Wywołanie metody get z zarządzanego zasobu
+    }
 };
